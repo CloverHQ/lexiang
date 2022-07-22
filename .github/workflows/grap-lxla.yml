@@ -28,6 +28,6 @@ jobs:
           python-version: '3.7'
           cache: 'pip'
       - name: Install dependencies
-      - run: pip install requests
+        run: pip install requests
       - name: Run app
-      - run: python ../../lx/lexiangla.py
+        run: python ../../lx/lexiangla.py
