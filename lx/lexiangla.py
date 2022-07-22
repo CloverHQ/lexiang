@@ -33,7 +33,6 @@ def yjsl():
                             'id'] + '?lazy_load=1&increment=1',
                         headers=headers)
                     doc_detail_resp = doc_detail.json()
-                    list.append(doc_detail_resp['name'])
                     if not (doc_detail_resp['target']['is_favorited'] and doc_detail_resp['target']['is_liked']):
                         headers['x-xsrf-token'] = urllib.parse.unquote(
                             re.search('XSRF-TOKEN=(.*?);', doc_detail.headers['set-cookie']).group(1))
@@ -53,7 +52,8 @@ def yjsl():
                             'content': '/强'
                         }
                         requests.post("https://lexiangla.com/api/v1/comments", data=payload, headers=headers)
-        send_bark('任务成功', '任务执行完毕 ^_^' + '\n'.join(list))
+                        list.append(doc_detail_resp['name'])
+        send_bark('任务成功', '任务执行完毕 ^_^' + '\n' + '\n'.join(list))
     else:
         print("未登录")
         send_bark('登陆信息失效', '登陆信息失效, 请重新登陆~')
