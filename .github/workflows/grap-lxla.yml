@@ -31,3 +31,5 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run app
         run: python lx/lexiangla.py
+        env:
+          LX_COOKIE: ${{ secrets.LX_COOKIE }}
