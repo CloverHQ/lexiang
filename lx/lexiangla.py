@@ -16,6 +16,8 @@ headers = {
     'x-xsrf-token': ''
 }
 
+list = []
+
 
 def yjsl():
     k8_resp = requests.get('https://lexiangla.com/gapi/v1/teams?limit=30&page=1&filter=list', headers=headers)
@@ -31,7 +33,7 @@ def yjsl():
                             'id'] + '?lazy_load=1&increment=1',
                         headers=headers)
                     doc_detail_resp = doc_detail.json()
-                    print(doc_detail_resp['read_count'])
+                    list.append(doc_detail_resp['name'])
                     if not (doc_detail_resp['target']['is_favorited'] and doc_detail_resp['target']['is_liked']):
                         headers['x-xsrf-token'] = urllib.parse.unquote(
                             re.search('XSRF-TOKEN=(.*?);', doc_detail.headers['set-cookie']).group(1))
@@ -51,8 +53,14 @@ def yjsl():
                             'content': '/强'
                         }
                         requests.post("https://lexiangla.com/api/v1/comments", data=payload, headers=headers)
+        send_bark('任务成功', '任务执行完毕 ^_^' + '\n'.join(list))
     else:
         print("未登录")
+        send_bark('登陆信息失效', '登陆信息失效, 请重新登陆~')
+
+
+def send_bark(title, content):
+    requests.get("https://api.day.app/" + os.environ['BARK_KEY'] + '/' + title + '/' + content)
 
 
 if __name__ == '__main__':

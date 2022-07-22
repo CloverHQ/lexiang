@@ -33,3 +33,4 @@ jobs:
         run: python lx/lexiangla.py
         env:
           LX_COOKIE: ${{ secrets.LX_COOKIE }}
+          BARK_KEY: ${{ secrets.BARK_KEY }}
