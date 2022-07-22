@@ -30,4 +30,4 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Run app
-        run: python /lx/lexiangla.py
+        run: python /home/runner/work/lexiang/lexiang/lx/lexiangla.py
