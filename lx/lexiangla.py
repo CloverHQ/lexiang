@@ -90,7 +90,7 @@ def sl(doc_detail):
 if __name__ == '__main__':
     k8_yjsl()
     doc_yjsl()
-    if not list:
+    if list:
         send_bark('任务成功', '任务执行完毕 ^_^' + '\n' + '\n'.join(list))
     else:
         send_bark('任务成功', '任务执行完毕 ^_^! 没有需要点赞的文章')
