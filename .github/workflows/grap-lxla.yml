@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: Checkout codes
         uses: actions/checkout@v3
-        with: { ref: master }
+        with: { ref: main }
       - name: Use Python
         uses: actions/setup-python@v4
         with:
@@ -32,5 +32,4 @@ jobs:
       - name: Run app
         run: python lx/lexiangla.py
         env:
-          LX_COOKIE: ${{ secrets.LX_COOKIE }}
-          BARK_KEY: ${{ secrets.BARK_KEY }}
+          LX_COOKIE: ${{ secrets.LX_CONFIG }}
