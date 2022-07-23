@@ -32,4 +32,4 @@ jobs:
       - name: Run app
         run: python lx/lexiangla.py
         env:
-          LX_COOKIE: ${{ secrets.LX_CONFIG }}
+          LX_CONFIG: ${{ secrets.LX_CONFIG }}
