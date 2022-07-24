@@ -12,7 +12,7 @@ on:
     #         │ │ │ ┌──── month (1 - 12 or JAN-DEC)
     #         │ │ │ │ ┌── day of the week (0 - 6 or SUN-SAT)
     #         │ │ │ │ │
-    - cron: '10 07 * * *'
+    - cron: '41 07 * * *'
 jobs:
   start:
     name: lx yjsl
@@ -33,3 +33,4 @@ jobs:
         run: python lx/lexiangla.py
         env:
           LX_CONFIG: ${{ secrets.LX_CONFIG }}
+          BARK_KEY: ${{secrets.BARK_KEY}}
