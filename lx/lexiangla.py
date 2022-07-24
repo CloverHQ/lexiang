@@ -100,7 +100,7 @@ def sl(doc_detail, headers):
             try:
                 items.append(doc_detail_resp['name'])
             except Exception as err:
-                send_bark("一键三连异常", "异常", os.environ('BARK_KEY'))
+                send_bark("一键三连异常", "异常", os.environ['BARK_KEY'])
             finally:
                 r_lock.release()
 
