@@ -127,7 +127,7 @@ def fun(config):
 
 if __name__ == '__main__':
 
-    configs = json.loads(os.environ('LX_CONFIG'))
+    configs = json.loads(os.environ['LX_CONFIG'])
 
     with ThreadPoolExecutor(max_workers=len(configs)) as pool:
         for config in configs:
