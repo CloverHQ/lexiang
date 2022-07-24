@@ -6,8 +6,10 @@
 # @Software: IntelliJ IDEA
 import json
 import os
+import random
 import re
 import threading
+import time
 import urllib.parse
 from concurrent.futures import ThreadPoolExecutor
 
@@ -90,6 +92,8 @@ def sl(doc_detail):
         print(requests.put(
             'https://lexiangla.com/api/v1/staff/favorites/documents/' + doc_detail_resp['target_id'],
             headers=headers).status_code)
+
+        time.sleep(random.randint(1, 5))
         # 评论
         payload = {
             "target_id": doc_detail_resp['target_id'],
