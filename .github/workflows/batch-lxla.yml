@@ -12,7 +12,7 @@ on:
     #         │ │ │ ┌──── month (1 - 12 or JAN-DEC)
     #         │ │ │ │ ┌── day of the week (0 - 6 or SUN-SAT)
     #         │ │ │ │ │
-    - cron: '30 06 * * *'
+    - cron: '35 06 * * *'
 jobs:
   start:
     name: lx yjsl
