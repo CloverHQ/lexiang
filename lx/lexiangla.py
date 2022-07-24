@@ -27,7 +27,7 @@ def k8_yjsl(cookie, bark_key):
     headers['cookie'] = cookie
     print(headers)
     k8_resp = requests.get('https://lexiangla.com/gapi/v1/teams?limit=30&page=1&filter=list', headers=headers)
-    if check_json(k8_resp.text):
+    if k8_resp.status_code == 200:
         for k8 in k8_resp.json()['data']:
             if not (1 == k8['is_secret'] or 1 == k8['type']):
                 doc_list = requests.get(
