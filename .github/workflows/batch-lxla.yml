@@ -1,0 +1,35 @@
+name: 乐享
+
+on:
+  # 手动触发
+  workflow_dispatch:
+  schedule:
+    # https://crontab.guru/
+    # UTC时间加8为中国时区
+    #         ┌────────── minute (0 - 59)
+    #         │ ┌──────── hour (0 - 23)
+    #         │ │ ┌────── day of the month (1 - 31)
+    #         │ │ │ ┌──── month (1 - 12 or JAN-DEC)
+    #         │ │ │ │ ┌── day of the week (0 - 6 or SUN-SAT)
+    #         │ │ │ │ │
+    - cron: '30 06 * * *'
+jobs:
+  start:
+    name: lx yjsl
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout codes
+        uses: actions/checkout@v3
+        with: { ref: main }
+      - name: Use Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.7'
+          cache: 'pip'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run app
+        run: python lx/lexiangla.py
+        env:
+          LX_CONFIG: ${{ secrets.LX_CONFIG }}
