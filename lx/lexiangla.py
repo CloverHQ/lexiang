@@ -88,7 +88,7 @@ def sl(doc_detail, headers):
                 'https://lexiangla.com/api/v1/staff/favorites/documents/' + doc_detail_resp['target_id'],
                 headers=headers).status_code)
 
-            time.sleep(random.randint(1, 5))
+            time.sleep(random.randint(3, 7))
             # 评论
             payload = {
                 "target_id": doc_detail_resp['target_id'],
