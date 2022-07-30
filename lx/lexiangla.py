@@ -20,7 +20,6 @@ r_lock = threading.RLock()
 
 
 def k8_yjsl(bark_key, headers):
-    print(headers)
     k8_resp = requests.get(
         'https://lexiangla.com/gapi/v1/teams?limit=30&page=1&filter=list', headers=headers)
     if k8_resp.status_code == 200:
