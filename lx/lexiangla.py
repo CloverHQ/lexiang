@@ -106,7 +106,7 @@ def sl(doc_detail, headers):
                 r_lock.release()
 
 
-def fun(config):
+def task(config):
     cookie = config['cookie']
     bark_key = config['bark_key']
     headers = {
@@ -132,7 +132,7 @@ if __name__ == '__main__':
 
     with ThreadPoolExecutor(max_workers=len(configs)) as pool:
         for config in configs:
-            task = pool.submit(fun, config)
+            task = pool.submit(task, config)
 
 
             def get_result(future):
