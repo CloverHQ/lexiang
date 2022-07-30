@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Time    : 2022-07-21 16:54
-# @Author  : liuwenchao
+# @Author  : mimikatz
 # @File    : lexiangla
-# @Software: IntelliJ IDEA
+# @Software: vscode
 import json
 import os
 import random
