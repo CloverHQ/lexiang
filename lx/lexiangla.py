@@ -136,17 +136,16 @@ def task(config):
 
 if __name__ == '__main__':
 
-    # configs = json.loads(os.environ['LX_CONFIG'])
+    configs = json.loads(os.environ['LX_CONFIG'])
 
-    # with ThreadPoolExecutor(max_workers=len(configs)) as pool:
-    #     for config in configs:
-    #         task = pool.submit(task, config)
+    with ThreadPoolExecutor(max_workers=len(configs)) as pool:
+        for config in configs:
+            task = pool.submit(task, config)
 
-    #         def get_result(future):
-    #             print(threading.current_thread().name +
-    #                   '运行结果：' + future.result())
+            def get_result(future):
+                print(threading.current_thread().name +
+                      '运行结果：' + future.result())
 
-    #         task.add_done_callback(get_result)
+            task.add_done_callback(get_result)
 
-    # print('线程结束')
-    print('asd %d' % 1)
+    print('线程结束')
