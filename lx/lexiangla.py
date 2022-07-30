@@ -84,17 +84,19 @@ def sl(doc_detail, headers):
             re.search('XSRF-TOKEN=(.*?);', doc_detail.headers['set-cookie']).group(1))
 
         # 点赞
-        print(requests.put(
+        requests.put(
             'https://lexiangla.com/api/v1/staff/likes/documents/' +
             doc_detail_resp['target_id'],
-            headers=headers).status_code)
+            headers=headers).status_code
         # 收藏
-        print(requests.put(
+        requests.put(
             'https://lexiangla.com/api/v1/staff/favorites/documents/' +
             doc_detail_resp['target_id'],
-            headers=headers).status_code)
-
+            headers=headers).status_code
+        time_start = time.time()
         time.sleep(random.randint(3, 7))
+        print('睡眠时间为:%d,当前文章名称为:%s,评论数量为:%d' % (int(time.time() - time_start),
+              doc_detail_resp['name'], doc_detail_resp['comment_count']))
         # 评论
         payload = {
             "target_id": doc_detail_resp['target_id'],
@@ -134,16 +136,17 @@ def task(config):
 
 if __name__ == '__main__':
 
-    configs = json.loads(os.environ['LX_CONFIG'])
+    # configs = json.loads(os.environ['LX_CONFIG'])
 
-    with ThreadPoolExecutor(max_workers=len(configs)) as pool:
-        for config in configs:
-            task = pool.submit(task, config)
+    # with ThreadPoolExecutor(max_workers=len(configs)) as pool:
+    #     for config in configs:
+    #         task = pool.submit(task, config)
 
-            def get_result(future):
-                print(threading.current_thread().name +
-                      '运行结果：' + future.result())
+    #         def get_result(future):
+    #             print(threading.current_thread().name +
+    #                   '运行结果：' + future.result())
 
-            task.add_done_callback(get_result)
+    #         task.add_done_callback(get_result)
 
-    print('线程结束')
+    # print('线程结束')
+    print('asd %d' % 1)
