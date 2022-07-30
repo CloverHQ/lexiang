@@ -76,7 +76,6 @@ def sl(doc_detail, headers):
 
         doc_detail_resp = doc_detail.json()
         
-        print(doc_detail_resp['comment_count'])
         if not (doc_detail_resp['target']['is_favorited'] and doc_detail_resp['target']['is_liked'] and doc_detail_resp['comment_count'] > 20):
             headers['x-xsrf-token'] = urllib.parse.unquote(
                 re.search('XSRF-TOKEN=(.*?);', doc_detail.headers['set-cookie']).group(1))
