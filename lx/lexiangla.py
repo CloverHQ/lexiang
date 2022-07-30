@@ -46,7 +46,6 @@ def send_bark(title, content, key):
 
 
 def doc_yjsl(bark_key, headers):
-    print(headers)
     # 获取全部doc
     doc_resp = requests.get('https://lexiangla.com/api/v1/docs?filter=category&limit=20&page=1&order=-created_at'
                             '&category_id=', headers=headers)
@@ -59,7 +58,7 @@ def doc_yjsl(bark_key, headers):
             # 如果点赞和收藏过中断执行
             detail_json = doc_detail.json()
             if detail_json['target']['is_favorited'] and detail_json['target']['is_liked']:
-                print(detail_json['name'])
+                print('[%s]已经点赞收藏知识库中断执行~' % detail_json['name'])
                 return
             sl(doc_detail, headers)
     else:
