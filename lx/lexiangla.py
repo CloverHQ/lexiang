@@ -92,7 +92,7 @@ def sl(doc_detail, headers):
             doc_detail_resp['target_id'],
             headers=headers).status_code
         time_start = time.time()
-        time.sleep(random.randint(3, 7))
+        time.sleep(random.randint(3, 10))
         print('睡眠时间为:%d,当前文章名称为:%s,评论数量为:%d' % (int(time.time() - time_start),
               doc_detail_resp['name'], doc_detail_resp['comment_count']))
         # 评论
