@@ -11,7 +11,7 @@ import re
 import threading
 import time
 import urllib.parse
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import requests
 
@@ -135,15 +135,9 @@ def task(config):
 if __name__ == '__main__':
 
     configs = json.loads(os.environ['LX_CONFIG'])
-
+    
     with ThreadPoolExecutor(max_workers=len(configs)) as pool:
-        for config in configs:
-            task = pool.submit(task, config)
-
-            def get_result(future):
-                print(threading.current_thread().name +
-                      '运行结果：' + future.result())
-
-            task.add_done_callback(get_result)
-
+        task_list =[pool.submit(task, config) for config in configs]
+        for res in as_completed(task_list):
+            print(res.result())
     print('线程结束')
