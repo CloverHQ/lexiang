@@ -15,11 +15,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import requests
 
-items = []
 r_lock = threading.RLock()
 
 
-def k8_yjsl(bark_key, headers):
+def k8_yjsl(bark_key, headers, items):
     k8_resp = requests.get(
         'https://lexiangla.com/gapi/v1/teams?limit=30&page=1&filter=list', headers=headers)
     if k8_resp.status_code == 200:
@@ -34,7 +33,7 @@ def k8_yjsl(bark_key, headers):
                         'https://lexiangla.com/api/v1/teams/' + k8['code'] + '/docs/' + doc[
                             'id'] + '?lazy_load=1&increment=1',
                         headers=headers)
-                    sl(doc_detail, headers)
+                    sl(doc_detail, headers, items)
     else:
         print("未登录")
         send_bark('登陆信息失效', '[K8]:登陆信息失效, 请重新登陆~', bark_key)
@@ -44,7 +43,7 @@ def send_bark(title, content, key):
     requests.get("https://api.day.app/" + key + '/' + title + '/' + content)
 
 
-def doc_yjsl(bark_key, headers):
+def doc_yjsl(bark_key, headers, items):
     # 获取全部doc
     doc_resp = requests.get('https://lexiangla.com/api/v1/docs?filter=category&limit=20&page=1&order=-created_at'
                             '&category_id=', headers=headers)
@@ -59,7 +58,7 @@ def doc_yjsl(bark_key, headers):
             if detail_json['target']['is_favorited'] and detail_json['target']['is_liked']:
                 print('[%s]已经点赞收藏知识库中断执行~' % detail_json['name'])
                 return
-            sl(doc_detail, headers)
+            sl(doc_detail, headers, items)
     else:
         print("未登录")
         send_bark('登陆信息失效', '[知识库]:登陆信息失效, 请重新登陆~', bark_key)
@@ -73,11 +72,11 @@ def check_json(str):
         return False
 
 
-def sl(doc_detail, headers):
+def sl(doc_detail, headers, items):
 
     doc_detail_resp = doc_detail.json()
 
-    if not (doc_detail_resp['target']['is_favorited'] and doc_detail_resp['target']['is_liked'] and doc_detail_resp['comment_count'] > 20):
+    if not doc_detail_resp['target']['is_favorited'] and not doc_detail_resp['target']['is_liked'] and doc_detail_resp['comment_count'] > 50:
         headers['x-xsrf-token'] = urllib.parse.unquote(
             re.search('XSRF-TOKEN=(.*?);', doc_detail.headers['set-cookie']).group(1))
 
@@ -122,9 +121,10 @@ def task(config):
         'cookie': cookie,
         'x-xsrf-token': ''
     }
+    items = []
 
-    k8_yjsl(bark_key, headers)
-    doc_yjsl(bark_key, headers)
+    k8_yjsl(bark_key, headers, items)
+    doc_yjsl(bark_key, headers, items)
     if items:
         send_bark('任务成功', '任务执行完毕 ^_^' + '\n' + '\n'.join(items), bark_key)
     else:
@@ -135,9 +135,9 @@ def task(config):
 if __name__ == '__main__':
 
     configs = json.loads(os.environ['LX_CONFIG'])
-    
+
     with ThreadPoolExecutor(max_workers=len(configs)) as pool:
-        task_list =[pool.submit(task, config) for config in configs]
+        task_list = [pool.submit(task, config) for config in configs]
         for res in as_completed(task_list):
             print(res.result())
     print('线程结束')
