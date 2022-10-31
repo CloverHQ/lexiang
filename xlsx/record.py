@@ -6,12 +6,14 @@
 # @Software: IntelliJ IDEA
 import json
 import os
+import random
+import time
 
 import openpyxl
+from tqdm import tqdm
 
 
-def get_data_batch():
-    file_name = '2022年十月过磅信息 -.xlsx'
+def get_data_batch(file_name):
     workbook = openpyxl.load_workbook(file_name, data_only=True)
     # 获取指定的sheet页对象
     sheet = workbook["Sheet1"]
@@ -59,13 +61,15 @@ def created_excel(header, data):
 
     # 写入excel文件 如果path路径的文件不存在那么就会自动创建
     workbook.save(os.getcwd() + '记录.xlsx')
-    print('写入成功')
 
 
 if __name__ == "__main__":
     # 获取数据
-    records = get_data_batch()
-
+    before = time.time()
+    file_name = input('请输入文件名称  (°ー°〃) \r\n')
+    print('正在解析请稍后....')
+    records = get_data_batch(file_name)
+    print("解析完成，正在生成新的Excel数据表...")
     header = ['日期/出站时间', '车号', '核定载质量', '出厂站核载质量', '驾驶员姓名', '联系方式', '送达/采购地址']
 
     data = []
@@ -74,17 +78,21 @@ if __name__ == "__main__":
 
     with open("info.json", encoding='utf-8') as fw:
         infos = json.load(fw)
+        for info in tqdm(infos, desc="生成进度"):
+            for record in records:
+                for info in infos:
+                    if info['carNo'].strip() == record['carNo'].strip():
+                        mass = int(info['ratedLoadingMass'][:-2])
 
-        for record in records:
-            for info in infos:
-                if info['carNo'].strip() == record['carNo'].strip():
-                    result = [record['date'], info['carNo'], info['ratedLoadingMass'],
-                              info['ratedLoadingMass'], info['name'], info['contact'],
-                              record['addr']]
-                    data.append(result)
-        not_exists = set(list(map(lambda x: x['carNo'].strip(), records))) - set(
-            list(map(lambda x: x['carNo'].strip(), infos)))
+                        result = [record['date'], info['carNo'], info['ratedLoadingMass'],
+                                  str(random.randint(mass - 3000, mass - 1000)) + 'kg', info['name'], info['contact'],
+                                  record['addr']]
+                        data.append(result)
+            not_exists = set(list(map(lambda x: x['carNo'].strip(), records))) - set(
+                list(map(lambda x: x['carNo'].strip(), infos)))
+
         created_excel(header, data)
         fileName = 'notebook.txt'
         with open(fileName, 'w', encoding='utf-8')as file:
             file.writelines([line + '\n' for line in not_exists])
+        print('[Mission Accomplished] 用时: %s  感谢使用！(￣_,￣ )' % str(time.time() - before))
