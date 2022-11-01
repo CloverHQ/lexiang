@@ -5,7 +5,6 @@
 # @File    : record
 # @Software: IntelliJ IDEA
 import json
-import os
 import random
 import time
 
@@ -60,7 +59,7 @@ def created_excel(header, data):
             sheet.cell(row=row_index + 1, column=col_index + 1, value=col_item)
 
     # 写入excel文件 如果path路径的文件不存在那么就会自动创建
-    workbook.save(os.getcwd() + '记录.xlsx')
+    workbook.save('记录.xlsx')
 
 
 if __name__ == "__main__":
@@ -78,18 +77,17 @@ if __name__ == "__main__":
 
     with open("info.json", encoding='utf-8') as fw:
         infos = json.load(fw)
-        for info in tqdm(infos, desc="生成进度"):
-            for record in records:
-                for info in infos:
-                    if info['carNo'].strip() == record['carNo'].strip():
-                        mass = int(info['ratedLoadingMass'][:-2])
+        for record in tqdm(records, desc="生成进度"):
+            for info in infos:
+                if info['carNo'].strip() == record['carNo'].strip():
+                    mass = int(info['ratedLoadingMass'][:-2])
 
-                        result = [record['date'], info['carNo'], info['ratedLoadingMass'],
-                                  str(random.randint(mass - 3000, mass - 1000)) + 'kg', info['name'], info['contact'],
-                                  record['addr']]
-                        data.append(result)
-            not_exists = set(list(map(lambda x: x['carNo'].strip(), records))) - set(
-                list(map(lambda x: x['carNo'].strip(), infos)))
+                    result = [record['date'], info['carNo'], info['ratedLoadingMass'],
+                              str(round(random.randint(mass - 3000, mass - 1000), -1)) + 'kg', info['name'], info['contact'],
+                              record['addr']]
+                    data.append(result)
+        not_exists = set(list(map(lambda x: x['carNo'].strip(), records))) - set(
+            list(map(lambda x: x['carNo'].strip(), infos)))
 
         created_excel(header, data)
         fileName = 'notebook.txt'
