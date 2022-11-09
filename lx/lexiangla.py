@@ -84,12 +84,12 @@ def sl(doc_detail, headers, items):
         requests.put(
             'https://lexiangla.com/api/v1/staff/likes/documents/' +
             doc_detail_resp['target_id'],
-            headers=headers).status_code
+            headers=headers)
         # 收藏
         requests.put(
             'https://lexiangla.com/api/v1/staff/favorites/documents/' +
             doc_detail_resp['target_id'],
-            headers=headers).status_code
+            headers=headers)
         time_start = time.time()
         time.sleep(random.randint(3, 10))
         print('睡眠时间为:%d,当前文章名称为:%s,评论数量为:%d' % (int(time.time() - time_start),
