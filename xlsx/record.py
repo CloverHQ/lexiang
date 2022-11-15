@@ -63,9 +63,20 @@ def created_excel(header, data):
 
 
 if __name__ == "__main__":
+
+    str = '██    ██  █████   ██████'
+    str2= ' ██  ██  ██   ██ ██    ██'
+    str3= '  ████   ███████ ██    ██'
+    str4= '   ██    ██   ██ ██    ██'
+    str5= '   ██    ██   ██  ██████'
     # 获取数据
-    before = time.time()
+    print(str)
+    print(str2)
+    print(str3)
+    print(str4)
+    print(str5)
     file_name = input('请输入文件名称  (°ー°〃) \r\n')
+    before = time.time()
     print('正在解析请稍后....')
     records = get_data_batch(file_name)
     print("解析完成，正在生成新的Excel数据表...")
