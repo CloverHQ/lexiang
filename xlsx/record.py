@@ -64,13 +64,13 @@ def created_excel(header, data):
 
 if __name__ == "__main__":
 
-    str = '██    ██  █████   ██████'
+    str1 = '██    ██  █████   ██████'
     str2= ' ██  ██  ██   ██ ██    ██'
     str3= '  ████   ███████ ██    ██'
     str4= '   ██    ██   ██ ██    ██'
     str5= '   ██    ██   ██  ██████'
     # 获取数据
-    print(str)
+    print(str1)
     print(str2)
     print(str3)
     print(str4)
