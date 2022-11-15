@@ -65,10 +65,10 @@ def created_excel(header, data):
 if __name__ == "__main__":
 
     str1 = '██    ██  █████   ██████'
-    str2= ' ██  ██  ██   ██ ██    ██'
-    str3= '  ████   ███████ ██    ██'
-    str4= '   ██    ██   ██ ██    ██'
-    str5= '   ██    ██   ██  ██████'
+    str2 = ' ██  ██  ██   ██ ██    ██'
+    str3 = '  ████   ███████ ██    ██'
+    str4 = '   ██    ██   ██ ██    ██'
+    str5 = '   ██    ██   ██  ██████'
     # 获取数据
     print(str1)
     print(str2)
@@ -94,7 +94,8 @@ if __name__ == "__main__":
                     mass = int(info['ratedLoadingMass'][:-2])
 
                     result = [record['date'], info['carNo'], info['ratedLoadingMass'],
-                              str(round(random.randint(mass - 3000, mass - 1000), -1)) + 'kg', info['name'], info['contact'],
+                              str(round(random.randint(mass - 3000, mass - 1000), -1)) + 'kg', info['name'],
+                              info['contact'],
                               record['addr']]
                     data.append(result)
         not_exists = set(list(map(lambda x: x['carNo'].strip(), records))) - set(
