@@ -7,6 +7,7 @@
 import json
 import os
 import random
+import sys
 import time
 
 import openpyxl
@@ -75,38 +76,53 @@ if __name__ == "__main__":
     print(str3)
     print(str4)
     print(str5)
+
+    f_list = []
+
     for file_name in os.listdir():
         if os.path.splitext(file_name)[1] == '.xlsx':
-            print(file_name)
+            f_list.append(file_name)
 
-    # file_name = input('请输入文件名称  (°ー°〃) \r\n')
-    # before = time.time()
-    # print('正在解析请稍后....')
-    # records = get_data_batch(file_name)
-    # print("解析完成，正在生成新的Excel数据表...")
-    # header = ['日期/出站时间', '车号', '核定载质量', '出厂站核载质量', '驾驶员姓名', '联系方式', '送达/采购地址']
-    #
-    # data = []
-    #
-    # not_exists = []
-    #
-    # with open("info.json", encoding='utf-8') as fw:
-    #     infos = json.load(fw)
-    #     for record in tqdm(records, desc="生成进度"):
-    #         for info in infos:
-    #             if info['carNo'].strip() == record['carNo'].strip():
-    #                 mass = int(info['ratedLoadingMass'][:-2])
-    #
-    #                 result = [record['date'], info['carNo'], info['ratedLoadingMass'],
-    #                           str(round(random.randint(mass - 3000, mass - 1000), -1)) + 'kg', info['name'],
-    #                           info['contact'],
-    #                           record['addr']]
-    #                 data.append(result)
-    #     not_exists = set(list(map(lambda x: x['carNo'].strip(), records))) - set(
-    #         list(map(lambda x: x['carNo'].strip(), infos)))
-    #
-    #     created_excel(header, data)
-    #     fileName = 'notebook.txt'
-    #     with open(fileName, 'w', encoding='utf-8')as file:
-    #         file.writelines([line + '\n' for line in not_exists])
-    #     print('[Mission Accomplished] 用时: %s  感谢使用！(￣_,￣ )' % str(time.time() - before))
+    if len(f_list) == 0:
+        input('当前文件夹没有要解析的文件, 请检查文件目录是否正确, 按回车键退出..')
+        sys.exit()
+
+    for idx, f in enumerate(f_list):
+        print('%d. %s' % (idx, f))
+
+    while True:
+        index = int(input('请输入要解析的文件序号... \r\n'))
+        if index >= len(f_list):
+            print('文件索引不存在, 请重新输入...')
+        else:
+            file_name = f_list[index]
+            break
+
+    before = time.time()
+    print('正在解析请稍后....')
+    records = get_data_batch(file_name)
+    print("解析完成，正在生成新的Excel数据表...")
+    header = ['日期/出站时间', '车号', '核定载质量', '出厂站核载质量', '驾驶员姓名', '联系方式', '送达/采购地址']
+
+    data = []
+
+    with open("info.json", encoding='utf-8') as fw:
+        infos = json.load(fw)
+        for record in tqdm(records, desc="生成进度"):
+            for info in infos:
+                if info['carNo'].strip() == record['carNo'].strip():
+                    mass = int(info['ratedLoadingMass'][:-2])
+
+                    result = [record['date'], info['carNo'], info['ratedLoadingMass'],
+                              str(round(random.randint(mass - 3000, mass - 1000), -1)) + 'kg', info['name'],
+                              info['contact'],
+                              record['addr']]
+                    data.append(result)
+        not_exists = set(list(map(lambda x: x['carNo'].strip(), records))) - set(
+            list(map(lambda x: x['carNo'].strip(), infos)))
+
+        created_excel(header, data)
+        fileName = 'notebook.txt'
+        with open(fileName, 'w', encoding='utf-8')as file:
+            file.writelines([line + '\n' for line in not_exists])
+        input('[Mission Accomplished, Press Enter to exit...] 用时: %s 感谢使用！(￣_,￣ )' % str(time.time() - before))
