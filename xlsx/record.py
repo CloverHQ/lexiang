@@ -125,4 +125,4 @@ if __name__ == "__main__":
         fileName = 'notebook.txt'
         with open(fileName, 'w', encoding='utf-8')as file:
             file.writelines([line + '\n' for line in not_exists])
-        input('[Mission Accomplished, Press Enter to exit...] 用时: %s 感谢使用！(￣_,￣ )' % str(time.time() - before))
+        input('[Mission Accomplished, Press Enter to exit...] 用时: %s 感谢使用！bye///' % str(time.time() - before))
