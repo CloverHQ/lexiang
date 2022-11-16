@@ -92,20 +92,25 @@ if __name__ == "__main__":
     if len(f_list) == 0:
         input('当前文件夹没有要解析的文件, 请检查文件目录是否正确, 按回车键退出..')
         sys.exit()
+    time.sleep(2)
 
-    print('运行环境检查通过... ^_^')
-
+    print('运行环境检查通过.... ^_^')
+    print('------------------------')
+    print('文件列表：')
     for idx, f in enumerate(f_list):
         print('%d. %s' % (idx, f))
+    print('------------------------')
 
-    while True:
-        index = int(input('请输入要解析的文件序号... \r\n'))
-        if index >= len(f_list):
-            print('文件索引不存在, 请重新输入...')
-        else:
-            file_name = f_list[index]
-            break
-
+    if len(f_list) > 1:
+        while True:
+            index = int(input('请输入要解析的文件序号... \r\n').strip())
+            if index >= len(f_list):
+                print('文件索引不存在, 请重新输入...')
+            else:
+                file_name = f_list[index]
+                break
+    else:
+        file_name = f_list[0]
     before = time.time()
     print('正在解析请稍后....')
     records = get_data_batch(file_name)
