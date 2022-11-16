@@ -79,13 +79,21 @@ if __name__ == "__main__":
 
     f_list = []
 
-    for file_name in os.listdir():
+    print('正在检查运行环境....')
+
+    if not os.path.exists('user_info.json'):
+        input('user_info文件不存在，请检查配置文件是否存在，按回车退出。')
+        sys.exit()
+
+    for file_name in os.listdir(os.getcwd()):
         if os.path.splitext(file_name)[1] == '.xlsx':
             f_list.append(file_name)
 
     if len(f_list) == 0:
         input('当前文件夹没有要解析的文件, 请检查文件目录是否正确, 按回车键退出..')
         sys.exit()
+
+    print('运行环境检查通过... ^_^')
 
     for idx, f in enumerate(f_list):
         print('%d. %s' % (idx, f))
@@ -106,7 +114,7 @@ if __name__ == "__main__":
 
     data = []
 
-    with open("info.json", encoding='utf-8') as fw:
+    with open("user_info.json", encoding='utf-8') as fw:
         infos = json.load(fw)
         for record in tqdm(records, desc="生成进度"):
             for info in infos:
@@ -122,7 +130,7 @@ if __name__ == "__main__":
             list(map(lambda x: x['carNo'].strip(), infos)))
 
         created_excel(header, data)
-        fileName = 'notebook.txt'
+        fileName = '未收集人员信息的车牌号.txt'
         with open(fileName, 'w', encoding='utf-8')as file:
             file.writelines([line + '\n' for line in not_exists])
         input('[Mission Accomplished, Press Enter to exit...] 用时: %s 感谢使用！bye///' % str(time.time() - before))
