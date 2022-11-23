@@ -7,6 +7,7 @@
 import json
 import os
 import random
+import re
 import sys
 import time
 
@@ -63,6 +64,8 @@ def created_excel(header, data):
     # 写入excel文件 如果path路径的文件不存在那么就会自动创建
     workbook.save('记录.xlsx')
 
+
+reg = '^[\u4E00-\u9FA5\uF900-\uFA2D\u0020]*$'
 
 if __name__ == "__main__":
     str1 = '██    ██  █████   ██████'
@@ -131,8 +134,8 @@ if __name__ == "__main__":
                               info['contact'],
                               record['addr']]
                     data.append(result)
-        not_exists = set(list(map(lambda x: x['carNo'].strip(), records))) - set(
-            list(map(lambda x: x['carNo'].strip(), infos)))
+        not_exists = filter(lambda x: not re.search(reg, x), set(map(lambda x: x['carNo'].strip(), records)) - set(
+            map(lambda x: x['carNo'].strip(), infos)))
 
         created_excel(header, data)
         fileName = '未收集人员信息的车牌号.txt'
