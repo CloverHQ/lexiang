@@ -52,8 +52,10 @@ class LeXiangVJ:
             business_id = content['business_id']
             business_type = content['business_type']
             if app_id == 64:
-                url = 'https://qy.51vj.cn/userpreference/prise/list?_=1669293338751&_v=1.8.12&app-id=64&corpid=wp58yYCQAAIPCiRQrU7UaqV4bgPo05Vw&' \
-                      'appid=64&parentid=1002&business-id={0}&business-type={1}&business-sec-id=0&page-num=1&page-size=10'.format(business_id, business_type)
+                url = 'https://qy.51vj.cn/userpreference/prise/list?_=1669293338751&_v=1.8.12&app-id=64&corpid' \
+                      '=wp58yYCQAAIPCiRQrU7UaqV4bgPo05Vw&' \
+                      'appid=64&parentid=1002&business-id={0}&business-type={1}' \
+                      '&business-sec-id=0&page-num=1&page-size=10'.format(business_id, business_type)
                 prise_count = requests.get(url, headers=self.init_headers()).json()['total_count']
             elif app_id == 36:
 
