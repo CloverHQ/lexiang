@@ -125,15 +125,16 @@ if __name__ == "__main__":
     with open("user_info.json", encoding='utf-8') as fw:
         infos = json.load(fw)
         for record in tqdm(records, desc="生成进度"):
-            items = filter(lambda x: x['carNo'].strip() == record['carNo'].strip(), infos)
-            # 车牌号相同随机获取
-            item = random.choice(items)
-            mass = int(item['ratedLoadingMass'][:-2])
-            result = [record['date'], item['carNo'], item['ratedLoadingMass'],
-                      str(round(random.randint(mass - 3000, mass - 1000), -1)) + 'kg', item['name'],
-                      item['contact'],
-                      record['addr']]
-            data.append(result)
+            items = list(filter(lambda x: x['carNo'].strip() == record['carNo'].strip(), infos))
+            if items:
+                # 车牌号相同随机获取
+                item = random.choice(items)
+                mass = int(item['ratedLoadingMass'][:-2])
+                result = [record['date'], item['carNo'], item['ratedLoadingMass'],
+                          str(round(random.randint(mass - 3000, mass - 1000), -1)) + 'kg', item['name'],
+                          item['contact'],
+                          record['addr']]
+                data.append(result)
         not_exists = filter(lambda x: not re.search(reg, x), set(map(lambda x: x['carNo'].strip(), records)) - set(
             map(lambda x: x['carNo'].strip(), infos)))
 
