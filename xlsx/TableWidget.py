@@ -2,8 +2,8 @@ import json
 import os
 import sys
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QCursor, QIntValidator
+from PyQt5.QtCore import Qt, QRegExp
+from PyQt5.QtGui import QCursor, QIntValidator, QRegExpValidator
 from PyQt5.QtWidgets import QApplication, QWidget, QDesktopWidget, QHBoxLayout, QTableWidget, QTableWidgetItem, \
     QAbstractItemView, QHeaderView, QMenu, QMessageBox, QDialog, QFormLayout, QLabel, QLineEdit, QPushButton, \
     QVBoxLayout
@@ -171,7 +171,8 @@ class QInputDialog(QDialog):
         self.name_line = QLineEdit()
         self.contact = QLabel("联系方式")
         self.contact_line = QLineEdit()
-        self.contact_line.setValidator(QIntValidator())
+        reg_exp = QRegExp('^[0-9]{1,11}$')
+        self.contact_line.setValidator(QRegExpValidator(reg_exp))
         self.qbtn = QPushButton("保存")
         self.init_ui()
 
