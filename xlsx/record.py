@@ -35,13 +35,13 @@ def get_data_batch(file_name):
                 record["date"] = str(data.value)
                 continue
             if data.column == 4:
-                record["carNo"] = data.value
+                record["carNo"] = str(data.value)
                 continue
             if data.column == 5 and record["carNo"] is None:
-                record["carNo"] = data.value
+                record["carNo"] = str(data.value)
                 continue
             if data.column == 11:
-                record["addr"] = data.value
+                record["addr"] = str(data.value)
                 continue
         if record["carNo"] is not None:
             list.append(record)
